@@ -15,7 +15,6 @@ remote='github'
 branch='master'
 svn revert -R .
 
-git fetch $remote
 git pull $remote
 
 lc=0
