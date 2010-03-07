@@ -34,7 +34,7 @@ for hash in `git log --reverse --first-parent --pretty='format:%H' $lc..$branch`
         echo "update to $hash"
         git checkout -f $hash
 
-        if ! git log -n 1 --pretty='format:%s%n%n%b' $hash > COMMIT_MSG
+        if ! git log -n 1 --pretty=fuller $hash > COMMIT_MSG
             then
                 echo "Canno get log" >&2
                 exit 127;
