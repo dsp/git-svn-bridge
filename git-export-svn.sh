@@ -12,11 +12,13 @@
 
 
 # Make sure there are two arguments
-if [ $# -ne 2 ]
+if [ $# -lt 2 ]
 then
-    echo "Usage: git-export-svn REMOTE BRANCH"
-    echo "    REMOTE The git remote to pull from"
-    echo "    BRANCH The git branch to pull from"
+    echo "Usage: git-export-svn REMOTE BRANCH SVNAUTH"
+    echo "    REMOTE  The git remote to pull from"
+    echo "    BRANCH  The git branch to pull from"
+    echo "    SVNAUTH The svn authentication to use"
+    echo "            (--username <user> --password <pass>)"
     echo "This script has to be run from within a checked out svn branch."
 
     exit 1
@@ -24,6 +26,7 @@ fi
 
 remote=$1
 branch=$2
+svnauth=$3
 svn revert -R .
 
 git pull $remote
@@ -62,7 +65,7 @@ for hash in `git log --reverse --first-parent --pretty='format:%H' $lc..$branch`
             done
         echo $hash > git-revision
         svn add git-revision
-        svn commit -F COMMIT_MSG
-        svn up
+        svn commit $svnauth -F COMMIT_MSG
+        svn up $svnauth
     done
 git checkout $branch

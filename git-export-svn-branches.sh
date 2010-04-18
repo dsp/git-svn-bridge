@@ -15,8 +15,8 @@ gitremote="github"
 giturl="git://github.com/phpbb/phpbb3.git"
 
 svnurl="http://code.phpbb.com/svn/phpbb/"
-svnuser="git-gate"
-svnpasscmd="" # either empty or "--password <password>"
+# either empty or "--no-auth-cache --username <user> --password <password>"
+svnauth="--no-auth-cache --username git-gate" 
 
 svnbranches=(  "trunk"                                    "branches/phpBB-3_0_0"                     "branches/phpBB-3_0_7" )
 gitbranches=(  "develop"                                  "develop-olympus"                          "prep-release-3.0.7" )
@@ -34,7 +34,7 @@ for (( i = 0 ; i < ${#svnbranches[@]} ; i++ ))
         if [ ! -d "$svnbranchname" ]
             then
                 echo "Creating svn checkout and initialising git repo"
-                svn co --username $svnuser $svnpasscmd $svnurl/$svnbranch/
+                svn co $svnauth $svnurl/$svnbranch/
                 cd $svnbranchname
                 echo ${githashinsvn[i]} > git-revision
                 git init
@@ -45,7 +45,7 @@ for (( i = 0 ; i < ${#svnbranches[@]} ; i++ ))
             fi
 
         cd $svnbranchname
-        $basedir/git-export-svn.sh $gitremote $gitbranch
+        $basedir/git-export-svn.sh $gitremote $gitbranch "$svnauth"
         cd ..
     done
 
