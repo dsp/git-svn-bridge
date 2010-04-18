@@ -40,6 +40,7 @@ for (( i = 0 ; i < ${#svnbranches[@]} ; i++ ))
                 git init
                 git remote add -t $gitbranch $gitremote $giturl
                 git fetch $gitremote
+                git checkout -b $gitbranch $gitremote/$gitbranch
                 cd ..
             fi
 
