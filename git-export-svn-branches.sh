@@ -22,7 +22,11 @@ svnbranches=(  "trunk"                                    "branches/phpBB-3_0_0"
 gitbranches=(  "develop"                                  "develop-olympus"                          "prep-release-3.0.7" )
 githashinsvn=( "b68de2323d6444b4b3685a98bbcb9500a38e45cb" "d62068cfadcc1478a2f8dd6e7da81dea6cee71ff" "872ad322ec69a032ec22d9e8ae19b9a8399d7712" )
 
-basedir=`readlink -f \`dirname $0\``
+basedir=`dirname $0`
+if [[ $basedir != /* ]]
+then
+    basedir="../$basedir"
+fi
 
 for (( i = 0 ; i < ${#svnbranches[@]} ; i++ ))
     do
